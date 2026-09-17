@@ -7,7 +7,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Cute Gym">
 <meta name="theme-color" content="#f3e7cf">
-<title>Cute Gym Tracker 🌷</title>
+<title>Cute Gym Tracker</title>
 <script>try{var t=(JSON.parse(localStorage.getItem('fierflori_v1')||'{}').theme)||'auto';if(t==='auto')t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.dataset.theme=t}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,14 +25,21 @@ p{margin:8px 0}
 ul,ol{padding-left:22px}
 button{font-family:inherit;color:var(--ink);cursor:pointer}
 button:disabled{opacity:.35;cursor:default}
-header{position:sticky;top:0;z-index:20;background:var(--paper);padding:calc(10px + env(safe-area-inset-top)) 14px 8px;border-bottom:2px dashed var(--line);display:flex;flex-wrap:wrap;row-gap:4px;align-items:center;justify-content:space-between;gap:8px}
-header h1{font-size:clamp(22px,6.4vw,30px);color:var(--tomato);transform:rotate(-2deg);white-space:nowrap}
+header{position:sticky;top:0;z-index:20;background:var(--paper);padding:calc(8px + env(safe-area-inset-top)) 14px 8px;border-bottom:2px dashed var(--line);display:flex;flex-wrap:wrap;row-gap:4px;align-items:center;justify-content:space-between;gap:8px}
+header h1{font-size:clamp(22px,6.4vw,30px);color:var(--tomato);white-space:nowrap}
+.brand{display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none;-webkit-user-select:none}
+.brand .txt{display:inline-block;transform:rotate(-2deg)}
+.brand .logo{transform:rotate(4deg);transition:transform .2s}
+.brand:active .logo{transform:rotate(-10deg) scale(.92)}
+.logo{display:inline-block;flex:none;vertical-align:middle}
+.logo svg{display:block;width:100%;height:100%;filter:drop-shadow(2px 2px 0 var(--shadow))}
+.bounce{animation:pop .6s}
 #hdrR{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;margin-left:auto}
 .pill{display:inline-block;border:2px solid var(--bd);background:var(--card);color:var(--ink);border-radius:999px;padding:2px 10px;font-size:16px;white-space:nowrap}
 .pill.lav{background:var(--lav)}
 .pill.name{background:var(--hi);font-family:'Caveat Brush',cursive;font-size:20px;line-height:1.2;max-width:42vw;overflow:hidden;text-overflow:ellipsis;transform:rotate(2deg);box-shadow:2px 2px 0 var(--shadow)}
 main{max-width:560px;margin:0 auto;padding:10px 14px}
-.card{background:var(--card);border:2.5px solid var(--bd);border-radius:18px 6px 20px 8px/8px 20px 6px 18px;padding:14px;margin:16px 0;box-shadow:4px 5px 0 var(--shadow);position:relative}
+.card{background:var(--card);border:2.5px solid var(--bd);border-radius:18px 6px 20px 8px/8px 20px 6px 18px;padding:14px;margin:16px 0;box-shadow:4px 5px 0 var(--shadow);position:relative;scroll-margin-top:90px}
 .card:nth-of-type(even){border-radius:6px 20px 8px 18px/20px 8px 18px 6px}
 .taped::before{content:'';position:absolute;top:-11px;left:50%;width:78px;height:22px;background:rgba(232,184,74,.6);transform:translateX(-50%) rotate(-3deg);border-left:3px dotted rgba(255,255,255,.7);border-right:3px dotted rgba(255,255,255,.7)}
 .card.finished{background:var(--done)}
@@ -88,11 +95,18 @@ select{font-family:inherit;font-size:17px;border:2px solid var(--bd);border-radi
 label{display:block;margin-top:10px}
 .bar{height:16px;border:2px solid var(--bd);border-radius:999px;background:var(--field);overflow:hidden;margin:4px 0}
 .bar div{height:100%;background:repeating-linear-gradient(45deg,var(--sage) 0 8px,#a7c296 8px 16px);transition:width .3s}
-.wsub{font-family:'Caveat Brush',cursive;font-size:21px;color:var(--teal);margin:12px 0 2px}
-.wi{display:flex;gap:10px;align-items:center;width:100%;text-align:left;background:none;border:none;border-bottom:1.5px dashed var(--line);padding:8px 2px;font-size:17px}
-.wi .box{width:26px;height:26px;flex:none;border:2px solid var(--bd);border-radius:7px;display:grid;place-items:center;background:var(--field);font-size:16px}
-.wi.done .box{background:var(--sage);color:#fff}
-.wi.done b{text-decoration:line-through;opacity:.55}
+.wsub{font-family:'Caveat Brush',cursive;font-size:20px;color:var(--teal);margin:10px 0 4px}
+.wsub .meta{font-family:'Patrick Hand',cursive}
+.wgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.wc{background:var(--tips);border:1.5px dashed var(--line);border-radius:12px 6px 12px 6px;padding:5px 3px;text-align:center;line-height:1.1}
+.wc .we{display:block;font-size:22px;line-height:1.2}
+.wc b{display:block;font-size:15px}
+.wc small{display:block;font-size:12.5px;color:var(--soft);margin-top:1px}
+.wl{display:flex;gap:8px;align-items:baseline;padding:3px 0;font-size:16px;line-height:1.25;border-bottom:1px dashed var(--line)}
+.wl:last-child{border-bottom:none}
+.wl .we{flex:none;width:24px;text-align:center;font-size:19px}
+.wl small{color:var(--soft);font-size:14px}
+.rep{display:inline-block;background:var(--hi);border-radius:6px;padding:0 6px;font-size:14px}
 .goal{display:flex;gap:8px;margin-top:8px}
 .gbtn{flex:1;min-height:46px;border-radius:14px 6px 14px 6px;border:2.5px solid var(--bd);background:var(--field);font-size:24px;font-family:'Caveat Brush',cursive;box-shadow:2px 2px 0 var(--shadow);padding:4px 0}
 .gbtn.on{background:var(--tomato);color:#fff}
@@ -151,7 +165,7 @@ nav button.on{color:var(--ink);background:var(--hi)}
 </style>
 </head>
 <body>
-<header><h1>Cute Gym Tracker 🌷</h1><div id="hdrR"></div></header>
+<header><h1 class="brand" onclick="go('azi')"><span id="hdrLogo"></span><span class="txt">Cute Gym Tracker</span></h1><div id="hdrR"></div></header>
 <main id="app"></main>
 <div id="rest"><span>☕ pauză</span><b id="restNum">1:30</b><button onclick="addRest(15)">+15s</button><button onclick="stopRest()">✕</button></div>
 <div id="toast"></div>
@@ -189,6 +203,12 @@ const fmtKg=n=>n==null?'':String(Math.round(n*100)/100).replace('.',',');
 function parseNum(v){v=String(v).trim().replace(',','.');if(v==='')return null;const n=parseFloat(v);return isNaN(n)?undefined:n}
 function weekStart(t){const d=new Date(t);d.setHours(0,0,0,0);d.setDate(d.getDate()-((d.getDay()+6)%7));return d}
 function greet(){const h=new Date().getHours();return h<5?'Noapte bună':h<12?'Bună dimineața':h<18?'Bună ziua':'Bună seara'}
+
+/* ============ logo (kettlebell zâmbăreț) ============ */
+const LK='#4a3426',LBG='#f6dcb0',LRED='#e2674a',LLEAF='#8fae7e',LCHEEK='#ffc2b8';
+const LP={h:'M22 30C20 14 44 14 42 30',l1:'M32 15Q27 6 21 9Q25 15 32 15Z',l2:'M32 15Q37 5 44 8Q39 15 32 15Z',sm:'M28 45Q32 49 36 45',sh:'M22 37Q22.5 31.5 27 29'};
+const LOGO_SVG=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-hidden="true"><rect x="1.5" y="1.5" width="61" height="61" rx="16" fill="${LBG}" stroke="${LK}" stroke-width="3"/><path d="${LP.h}" fill="none" stroke="${LK}" stroke-width="5" stroke-linecap="round"/><path d="${LP.l1}" fill="${LLEAF}" stroke="${LK}" stroke-width="1.8" stroke-linejoin="round"/><path d="${LP.l2}" fill="${LLEAF}" stroke="${LK}" stroke-width="1.8" stroke-linejoin="round"/><circle cx="32" cy="40" r="16" fill="${LRED}" stroke="${LK}" stroke-width="3"/><path d="${LP.sh}" fill="none" stroke="#fff" stroke-opacity=".75" stroke-width="2.2" stroke-linecap="round"/><circle cx="23.5" cy="44" r="2.6" fill="${LCHEEK}"/><circle cx="40.5" cy="44" r="2.6" fill="${LCHEEK}"/><circle cx="26.5" cy="39" r="2.3" fill="${LK}"/><circle cx="37.5" cy="39" r="2.3" fill="${LK}"/><path d="${LP.sm}" fill="none" stroke="${LK}" stroke-width="2.2" stroke-linecap="round"/></svg>`;
+const logo=(px,cls='')=>`<span class="logo ${cls}" style="width:${px}px;height:${px}px">${LOGO_SVG}</span>`;
 
 /* ============ ilustrații ============ */
 const INK='#4a3426',TOM='#e2674a',MUS='#e8b84a',TEA='#3f9c94',FL='#cbb391';
@@ -264,28 +284,27 @@ const EX={
 };
 function ex(id){const e=EX[id]||{n:id};const b=e.like?EX[e.like]:{};return {u:'kg',...b,...e,kg:e.kg??null,set:e.set||'',alt:e.alt||[],t:e.t||b.t||[]}}
 
-/* ============ încălzire ============ */
+/* ============ încălzire: [iconiță, nume, cum, repetări] ============ */
 const JOINTS=[
- ['🙂','Gât','înclinări stânga–dreapta, apoi semicercuri lente cu bărbia pe piept · ×5'],
- ['🤷‍♀️','Umeri','rotiri înainte și înapoi · ×10'],
- ['🙆‍♀️','Brațe','cercuri mari înainte și înapoi · ×10'],
- ['💪','Coate','rotiri ale antebrațelor în ambele sensuri · ×10'],
- ['✋','Încheieturi și antebrațe','degetele împletite, rotiri · ×10, apoi palme sus/jos · ×10'],
- ['🌀','Trunchi','rotații · ×10 și înclinări laterale · ×8'],
- ['💃','Șolduri','cercuri mari în ambele sensuri · ×8'],
- ['🦵','Genunchi','mâinile pe genunchi, cercuri mici · ×8'],
- ['🦶','Glezne','rotiri pe fiecare picior · ×8']
+ ['🙂','Gât','înclinări, cercuri','×5'],
+ ['🤷‍♀️','Umeri','rotiri față/spate','×10'],
+ ['🙆‍♀️','Brațe','cercuri mari','×10'],
+ ['💪','Coate','rotiri','×10'],
+ ['✋','Încheieturi','rotiri, palme sus/jos','×10'],
+ ['🌀','Trunchi','rotații, înclinări','×10'],
+ ['💃','Șolduri','cercuri mari','×8'],
+ ['🦵','Genunchi','cercuri mici','×8'],
+ ['🦶','Glezne','rotiri','×8/parte']
 ];
 const WEX={
- lower:[['🍑','Glute bridge','pe saltea, strângi fesierii sus · ×10'],['🪑','Genuflexiuni fără greutate','lente, cât de jos e confortabil · ×10'],['🦩','Balansări de picior','față–spate și lateral, ținută de ceva · ×10/parte'],['🙇‍♀️','Good morning fără greutate','mâinile pe șolduri, fundul în spate · ×8'],['🚶‍♀️','Fandări pe loc','pași mici, controlat · ×5/parte']],
- upper:[['🐈','Cat–cow','spatele rotund, apoi arcuit · ×6'],['🧱','Flotări la perete','ușor, controlat · ×8'],['🙌','Wall slides','spatele la perete, brațele urcă și coboară · ×8'],['🦅','Y–T–W','aplecată ușor, desenezi literele cu brațele · ×5 fiecare'],['🤗','Deschideri de brațe','strângi omoplații la final · ×10']],
- full:[['🪑','Genuflexiuni fără greutate','lente · ×8'],['🦩','Balansări de picior','față–spate · ×8/parte'],['🙇‍♀️','Good morning fără greutate','fundul în spate, spatele drept · ×8'],['🐈','Cat–cow','· ×6'],['🤗','Deschideri de brațe','strângi omoplații · ×10']]
+ lower:[['🍑','Glute bridge','strângi fesierii sus','×10'],['🪑','Genuflexiuni fără greutate','lente, cât e confortabil','×10'],['🦩','Balansări de picior','față–spate și lateral','×10/parte'],['🙇‍♀️','Good morning','fără greutate, fundul în spate','×8'],['🚶‍♀️','Fandări pe loc','pași mici, controlat','×5/parte']],
+ upper:[['🐈','Cat–cow','spatele rotund, apoi arcuit','×6'],['🧱','Flotări la perete','ușor, controlat','×8'],['🙌','Wall slides','spatele la perete, brațele sus–jos','×8'],['🦅','Y–T–W','aplecată ușor, desenezi literele','×5 fiecare'],['🤗','Deschideri de brațe','strângi omoplații','×10']],
+ full:[['🪑','Genuflexiuni fără greutate','lente','×8'],['🦩','Balansări de picior','față–spate','×8/parte'],['🙇‍♀️','Good morning','fără greutate, spatele drept','×8'],['🐈','Cat–cow','spatele rotund, apoi arcuit','×6'],['🤗','Deschideri de brațe','strângi omoplații','×10']]
 };
 const WLABEL={full:'full body',upper:'upper',lower:'picioare'};
-const warmList=wid=>[...JOINTS,...WEX[(W[wid]&&W[wid].wu)||'full']];
 
 /* ============ antrenamente ============ */
-const CAB1='🔁 la același cablu cu următorul', CAB2='🔁 aceeași frânghie', LP='🔁 pe loc, la leg press';
+const CAB1='🔁 la același cablu cu următorul', CAB2='🔁 aceeași frânghie', LPR='🔁 pe loc, la leg press';
 const W={
  FB_A:{n:'Full Body A',em:'🌷',wu:'full',sub:'picioare, spate și un strop de piept',list:[
   {e:'vsquat',s:3,r:'10–12',wu:1,rest:90},{e:'rdl',s:3,r:'10–12',wu:1,rest:90},{e:'pulldown',s:3,r:'10–12',wu:1,rest:75},
@@ -293,7 +312,7 @@ const W={
   {e:'plank',s:2,r:'20–40 sec',core:1}],
   bonus:[{e:'curl',s:2,r:'10–12'},{e:'lateral',s:2,r:'12–15'},{e:'legext',s:2,r:'12'}]},
  FB_B:{n:'Full Body B',em:'🌻',wu:'full',sub:'fesieri, umeri și spate',list:[
-  {e:'hipthrust',s:4,r:'10–12',wu:1,rest:90},{e:'legpress',s:3,r:'10–12',wu:1,rest:90},{e:'calves',s:3,r:'15',g:LP},
+  {e:'hipthrust',s:4,r:'10–12',wu:1,rest:90},{e:'legpress',s:3,r:'10–12',wu:1,rest:90},{e:'calves',s:3,r:'15',g:LPR},
   {e:'row',s:3,r:'10–12',wu:1,rest:75},{e:'shoulder',s:3,r:'10–12'},{e:'legcurl',s:3,r:'10–12'},{e:'reardelt',s:3,r:'12–15'},
   {e:'pallof',s:2,r:'8 pe parte',core:1},{e:'abd',s:2,r:'15',opt:1}],
   bonus:[{e:'curl',s:2,r:'10–12'},{e:'lateral',s:2,r:'12–15'},{e:'legext',s:2,r:'12'},{e:'add',s:2,r:'15'}]},
@@ -306,11 +325,11 @@ const W={
   {e:'pushdown',s:3,r:'10–12',g:CAB2},{e:'lateral',s:3,r:'12–15'},{e:'curl',s:3,r:'10–12'},{e:'pallof',s:2,r:'8 pe parte',core:1}],
   bonus:[{e:'chest',s:2,r:'10–12'},{e:'reardelt',s:2,r:'12–15'}]},
  LOWER:{n:'Lower Body',em:'🌼',wu:'lower',sub:'picioare și fesieri',list:[
-  {e:'legpress',s:3,r:'10–12',wu:1,rest:90},{e:'calves',s:3,r:'12–15',g:LP},{e:'hipthrust',s:4,r:'10–12',wu:1,rest:90},
+  {e:'legpress',s:3,r:'10–12',wu:1,rest:90},{e:'calves',s:3,r:'12–15',g:LPR},{e:'hipthrust',s:4,r:'10–12',wu:1,rest:90},
   {e:'legext',s:3,r:'10–12'},{e:'legcurl',s:3,r:'10–12'},{e:'abd',s:3,r:'15'},{e:'plank',s:2,r:'20–40 sec',core:1}],
   bonus:[{e:'add',s:2,r:'15'}]},
  LOWER2:{n:'Lower (2 zile)',em:'🥕',wu:'lower',sub:'picioare și fesieri',list:[
-  {e:'legpress',s:3,r:'10–12',wu:1,rest:90},{e:'calves',s:3,r:'15',g:LP},{e:'hipthrust',s:4,r:'10–12',wu:1,rest:90},
+  {e:'legpress',s:3,r:'10–12',wu:1,rest:90},{e:'calves',s:3,r:'15',g:LPR},{e:'hipthrust',s:4,r:'10–12',wu:1,rest:90},
   {e:'rdl',s:3,r:'10–12',wu:1,rest:90},{e:'legcurl',s:3,r:'10–12'},{e:'legext',s:3,r:'10–12'},{e:'abd',s:2,r:'15',opt:1},
   {e:'plank',s:2,r:'20–40 sec',core:1}],
   bonus:[{e:'add',s:2,r:'15'}]},
@@ -377,8 +396,8 @@ function nextInfo(){const p=P[S.plan];
  if(S.mode==='next'||!p.days){const k=p.seq[S.idx%p.seq.length];return `${W[k].em} ${W[k].n}`}
  const wd=new Date().getDay();for(let d=1;d<=7;d++){const k=p.days[(wd+d)%7];if(k)return `${DAYS[(wd+d)%7]} · ${W[k].em} ${W[k].n}`}return '—'}
 function todayLog(){const k=todayKey();return [...S.logs].reverse().find(l=>ymd(l.date)===k)}
-function newSession(wid,start){return{wid,created:Date.now(),start:start||null,done:{},warm:{},wchk:{},alt:{},kg:{},top:{}}}
-function ensure(){if(!S.session){const tp=todayPlan();S.session=newSession(tp.wid||P[S.plan].seq[0])}S.session.wchk=S.session.wchk||{};return S.session}
+function newSession(wid,start){return{wid,created:Date.now(),start:start||null,done:{},warm:{},alt:{},kg:{},top:{}}}
+function ensure(){if(!S.session){const tp=todayPlan();S.session=newSession(tp.wid||P[S.plan].seq[0])}return S.session}
 function dropStale(){const s=S.session;if(!s)return;if(!W[s.wid]||(!s.start&&ymd(s.created)!==todayKey())){S.session=null;save()}}
 function curEx(key,sl){return(S.session&&S.session.alt[key])||sl.e}
 function baseKg(id){return S.w[id]!=null?S.w[id]:ex(id).kg}
@@ -392,11 +411,11 @@ function progress(){const s=S.session;if(!s||!W[s.wid])return{total:0,cnt:0};let
 function hearts(){const goal=S.goal||2,ws=weekStart(Date.now()).getTime();const c=S.logs.filter(l=>new Date(l.date).getTime()>=ws).length;
  return '❤️'.repeat(Math.min(c,goal))+'🤍'.repeat(Math.max(0,goal-c))+(c>goal?'💖'.repeat(Math.min(c-goal,3)):'')}
 function startIfNeeded(s){if(!s.start){s.start=Date.now();save()}}
-function startNow(){unlockAudio();startIfNeeded(ensure());render()}
+function startNow(){unlockAudio();startIfNeeded(ensure());UI.open.warm=false;render()}
+function warmDone(){unlockAudio();startIfNeeded(ensure());UI.open.warm=false;render();toast('Încălzită! Hai la treabă 💪')}
 function tapDot(key,i,rest,n){unlockAudio();const s=ensure();startIfNeeded(s);const a=s.done[key]||(s.done[key]=[]);a[i]=!a[i];save();
  const c=a.slice(0,n).filter(Boolean).length;if(a[i]){if(c>=n){stopRest();toast(pick(YAY))}else startRest(rest)}render()}
 function tapWarm(key){unlockAudio();const s=ensure();startIfNeeded(s);s.warm[key]=!s.warm[key];save();if(s.warm[key])startRest(60);render()}
-function tapWI(i){unlockAudio();const s=ensure();startIfNeeded(s);s.wchk[i]=!s.wchk[i];save();render()}
 function setKg(id,v){v=parseNum(v);if(v===undefined){render();return}const s=ensure();s.kg[id]=v;if(!S.cozy)S.w[id]=v;save();render()}
 function stepKg(id,dir){const cur=shownKg(id);const v=Math.max(0,Math.round(((cur??0)+dir*STEP)*100)/100);setKg(id,String(v))}
 function setBase(id,v){v=parseNum(v);if(v===undefined){render();return}if(v===null)delete S.w[id];else S.w[id]=v;save();render()}
@@ -410,7 +429,8 @@ function toggleCozy(){S.cozy=!S.cozy;if(S.session)S.session.kg={};save();render(
 function flip(k){S[k]=!S[k];save();render()}
 function tog(k){UI.open[k]=!UI.open[k];render()}
 function go(t){UI.tab=t;render();scrollTo(0,0)}
-function openGuide(k){UI.guide[k]=true;go('ghid')}
+function openGuide(k){closeModal();UI.guide[k]=true;UI.tab='ghid';render();
+ requestAnimationFrame(()=>{const el=document.getElementById('g-'+k);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});else scrollTo(0,0)})}
 function setPlan(k){S.plan=k;S.idx=0;if(k==='three'&&S.goal<3){S.goal=3;toast('Plan de 3 zile · obiectiv 3/săpt.')}else toast('Plan: '+P[k].n);save();render()}
 function setGoal(n){S.goal=n;save();render();toast('Obiectiv: '+n+' pe săptămână '+'❤️'.repeat(n))}
 async function discard(){if(!await ask({emoji:'🗑️',title:'Renunți la antrenament?',text:'Bifele de azi dispar. Greutățile rămân salvate.',ok:'Da, renunț',cancel:'Nu, continui',danger:1}))return;S.session=null;stopRest();save();render()}
@@ -478,7 +498,7 @@ function confetti(){for(let i=0;i<22;i++){const el=document.createElement('div')
  el.style.left=Math.random()*100+'vw';el.style.animationDelay=Math.random()*0.6+'s';el.style.fontSize=(18+Math.random()*18)+'px';document.body.appendChild(el);setTimeout(()=>el.remove(),3500)}}
 
 /* ============ backup ============ */
-function backupText(){return JSON.stringify({app:'cutegymtracker',v:3,exported:new Date().toISOString(),state:Object.assign({},S,{session:null})})}
+function backupText(){return JSON.stringify({app:'cutegymtracker',v:4,exported:new Date().toISOString(),state:Object.assign({},S,{session:null})})}
 function backupDone(){S.lastBackup=Date.now();save();render();toast('Backup gata 💾')}
 async function exportData(){const t=backupText(),name='cute-gym-backup-'+todayKey()+'.json';
  try{const f=new File([t],name,{type:'application/json'});if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],title:'Backup Cute Gym Tracker'});backupDone();return}}
@@ -518,14 +538,17 @@ function exCard(sl,key){const s=S.session,id=curEx(key,sl),e=ex(id),main=sl.e,n=
  ${UI.open['n'+key]?`<textarea placeholder="ex: la aparatul din colț…" onchange="setNote('${id}',this.value)">${esc(S.notes[id]||'')}</textarea>`:(S.notes[id]?`<div class="note">📝 ${esc(S.notes[id])}</div>`:'')}
  ${all&&!sl.core&&!S.cozy&&!e.bw?`<div><button class="chip ${s.top[id]?'on':''}" onclick="toggleTop('${id}')">✨ Am făcut ${topRep(sl.r)} la toate seriile</button></div>`:''}</div>`}
 
-function warmCard(wid){const s=S.session,wl=warmList(wid),wc=(s&&s.wchk)||{},cnt=wl.filter((_,i)=>wc[i]).length;
- const open=UI.open.warm??!(s&&s.start),t=W[wid].wu||'full';
- const item=(x,i)=>`<button class="wi ${wc[i]?'done':''}" onclick="tapWI(${i})"><span class="box">${wc[i]?'✓':''}</span><span><b>${x[0]} ${x[1]}</b><br><span class="meta">${x[2]}</span></span></button>`;
- return `<div class="card"><button class="linkish" onclick="UI.open.warm=${!open};render()"><h3>🔥 Încălzire ${WLABEL[t]} · ~5 min <span class="meta">${cnt}/${wl.length} ${open?'▴':'▾'}</span></h3></button>
- ${open?`<div class="wsub">1. Articulații, de la gât în jos</div>${JOINTS.map((x,i)=>item(x,i)).join('')}<div class="wsub">2. Pentru ${t==='lower'?'picioare':t==='upper'?'partea de sus':'tot corpul'}</div>${WEX[t].map((x,i)=>item(x,i+JOINTS.length)).join('')}<p class="meta">3. La primele exerciții, bulinuța punctată = seria ușoară (~jumătate din greutate × 8–10).</p>`:''}</div>`}
+function warmCard(wid){const s=S.session,t=W[wid].wu||'full',open=UI.open.warm??!(s&&s.start);
+ const cell=x=>`<div class="wc"><span class="we">${x[0]}</span><b>${x[1]}</b><small>${x[2]} · ${x[3]}</small></div>`;
+ const line=x=>`<div class="wl"><span class="we">${x[0]}</span><span><b>${x[1]}</b> <span class="rep">${x[3]}</span> <small>${x[2]}</small></span></div>`;
+ return `<div class="card"><button class="linkish" onclick="UI.open.warm=${!open};render()"><h3>🔥 Încălzire ${WLABEL[t]} · ~5 min <span class="meta">${open?'▴':'▾'}</span></h3></button>
+ ${open?`<div class="wsub">1. Articulații <span class="meta">· de sus în jos, fără pauze</span></div><div class="wgrid">${JOINTS.map(cell).join('')}</div>
+ <div class="wsub">2. Pentru ${t==='lower'?'picioare':t==='upper'?'partea de sus':'tot corpul'}</div><div>${WEX[t].map(line).join('')}</div>
+ <p class="meta">3. La primele exerciții: o serie ușoară, bulinuța punctată.</p>
+ <button class="btn small sage block" onclick="warmDone()">👍 Gata încălzirea</button>`:''}</div>`}
 
 function doneCard(l){const w=W[l.wid];
- return `<div class="card taped center"><div class="big-emoji">🏆</div><h2 class="big">Gata pe azi!</h2><p>${DONEMSG[new Date().getDate()%DONEMSG.length]}</p>
+ return `<div class="card taped center"><div style="margin:8px 0 4px">${logo(92,'bounce')}</div><h2 class="big">Gata pe azi! 🏆</h2><p>${DONEMSG[new Date().getDate()%DONEMSG.length]}</p>
  <div class="row mid"><span class="pill">${w?w.em+' '+w.n:'Antrenament'}</span>${l.dur?`<span class="pill">⏱ ${l.dur} min</span>`:''}<span class="pill">✅ ${l.done}/${l.total} serii</span>${l.energy!=null?`<span class="pill">${ENERGY[l.energy]}</span>`:''}${l.cozy?'<span class="pill lav">🌙 cozy</span>':''}</div>
  <div class="tips" style="text-align:left;margin-top:14px"><b>Un antrenament pe zi e destul 💛</b><br>Mușchii cresc acum, la odihnă, nu la sală. Un al doilea antrenament în aceeași zi doar încetinește refacerea. Pentru restul zilei:<ul><li>💧 apă</li><li>🍗 o masă cu proteine</li><li>😴 somn bun</li><li>🤸 stretching ușor, dacă ai chef</li></ul></div>
  <p class="meta">Următorul: ${nextInfo()}</p><button class="btn ghost block" onclick="openGuide('str')">🤸 Stretching de seară</button>
@@ -535,6 +558,7 @@ function skipCard(sk){
  return `<div class="card taped center"><div class="big-emoji">🛋️</div><h2 class="big">Zi de odihnă</h2><p>${SKIPMSG[new Date().getDate()%SKIPMSG.length]}</p>${sk.r!=null?`<span class="pill">${REASONS[sk.r]}</span>`:''}
  <div class="tips" style="text-align:left;margin-top:14px">O zi sărită nu strică nimic. Contează ce faci în majoritatea săptămânilor, nu fiecare zi în parte. Dacă ai chef de ceva mic:<ul><li>🚶‍♀️ o plimbare scurtă</li><li>💻 2 minute de postură</li><li>😴 culcare mai devreme</li></ul></div>
  <p class="meta">Următorul: ${nextInfo()}</p>${S.mode==='day'&&P[S.plan].days?'<p class="meta">💡 Dacă sari des, modul „următorul la rând” din Setări nu pierde niciun antrenament.</p>':''}
+ <button class="btn ghost block" onclick="openGuide('desk')">💻 Postură de birou</button>
  <button class="btn ghost block" onclick="undoSkip()">↩️ M-am răzgândit, merg la sală</button></div>`}
 
 function vAzi(){dropStale();const s=S.session,tp=todayPlan(),d=new Date();
@@ -546,7 +570,7 @@ function vAzi(){dropStale();const s=S.session,tp=todayPlan(),d=new Date();
  const tl=todayLog();if(tl)return h+doneCard(tl);
  const sk=S.skips[todayKey()];if(sk)return h+skipCard(sk);
  const wid=s?s.wid:tp.wid;
- if(!wid){const nx=tp.next;return h+`<div class="card taped"><h2 class="big">Azi e zi liberă 🍵</h2><p>Mușchii cresc acum, cât te odihnești. Dacă ai chef de ceva mic:</p><ul class="tips"><li>🚶‍♀️ o plimbare de 20–30 de minute</li><li>💻 2 minute de postură (vezi Ghid)</li><li>😴 somn bun</li></ul><p class="meta">Următorul: ${nextInfo()}</p><button class="btn block" onclick="openPicker()">Vreau totuși să merg 💪</button></div>`}
+ if(!wid){return h+`<div class="card taped"><h2 class="big">Azi e zi liberă 🍵</h2><p>Mușchii cresc acum, cât te odihnești. Dacă ai chef de ceva mic:</p><ul class="tips"><li>🚶‍♀️ o plimbare de 20–30 de minute</li><li>💻 2 minute de postură (vezi Ghid)</li><li>😴 somn bun</li></ul><p class="meta">Următorul: ${nextInfo()}</p><button class="btn block" onclick="openPicker()">Vreau totuși să merg 💪</button></div>`}
  const w=W[wid];const reason=s?(s.start?'în desfășurare':(s.wid===tp.wid?tp.reason:'ales de tine')):tp.reason;
  h+=`<div class="card taped"><div class="meta">${reason}</div><h2 class="big">${w.em} ${w.n}</h2><div class="meta">${w.sub}</div>
  <div class="row">${s&&s.start?`<span class="pill">▶️ început la ${hm(s.start)}</span>`:`<button class="btn small sage" onclick="startNow()">▶️ Încep</button>`}<button class="btn small ghost" onclick="openPicker()">🔄 alt antrenament</button>${stale?'':`<button class="btn small ghost" onclick="openSkip()">⏭️ sar azi</button>`}</div>
@@ -566,7 +590,7 @@ function journalItems(){return [
 ].sort((a,b)=>b.t-a.t)}
 function logRow(it){
  if(it.k==='skip'){const s=it.s;return `<div class="log skipd"><div><b>⏭️ Zi de odihnă</b> ${s.r!=null?`<span class="meta">${REASONS[s.r]}</span>`:''}<div class="meta">${cap(DAYS[new Date(it.t).getDay()])}, ${dm(it.t)}${s.wid&&W[s.wid]?' · era '+W[s.wid].em+' '+W[s.wid].n:''}</div></div><button class="x" onclick="delSkip('${it.d}')">🗑</button></div>`}
- const l=it.l;return `<div class="log"><div><b>${W[l.wid]?W[l.wid].em+' '+W[l.wid].n:'Antrenament'}</b> ${l.cozy?'🌙':''} ${l.energy!=null?ENERGY[l.energy]:''}<div class="meta">${cap(DAYS[new Date(l.date).getDay()])}, ${dm(l.date)}${l.date?' · '+hm(l.date):''} · ${l.dur?l.dur+' min · ':''}${l.done}/${l.total} serii</div>${l.note?`<div class="note">📝 ${esc(l.note)}</div>`:''}</div><button class="x" onclick="delLog(${l.id})">🗑</button></div>`}
+ const l=it.l;return `<div class="log"><div><b>${W[l.wid]?W[l.wid].em+' '+W[l.wid].n:'Antrenament'}</b> ${l.cozy?'🌙':''} ${l.energy!=null?ENERGY[l.energy]:''}<div class="meta">${cap(DAYS[new Date(l.date).getDay()])}, ${dm(l.date)} · ${hm(l.date)} · ${l.dur?l.dur+' min · ':''}${l.done}/${l.total} serii</div>${l.note?`<div class="note">📝 ${esc(l.note)}</div>`:''}</div><button class="x" onclick="delLog(${l.id})">🗑</button></div>`}
 async function delLog(id){if(!await ask({emoji:'🗑️',title:'Ștergi antrenamentul?',text:'Dispare din jurnal, grădină și statistici.',ok:'Da, șterge',cancel:'Nu',danger:1}))return;S.logs=S.logs.filter(l=>l.id!==id);save();render()}
 function pageTo(p){UI.page=p;render();const j=$('#jurnal');if(j)j.scrollIntoView({block:'start',behavior:'smooth'})}
 
@@ -591,16 +615,16 @@ function vGarden(){const g=gardenState(),mins=S.logs.reduce((a,l)=>a+(l.dur||0),
   h+=`<div class="card"><h3>📈 Progres</h3><select onchange="UI.chart=this.value;render()">${ids.map(i=>`<option value="${i}" ${i===UI.chart?'selected':''}>${esc(ex(i).n)}</option>`).join('')}</select>${gr}</div>`}
  const items=journalItems(),pages=Math.max(1,Math.ceil(items.length/PER));UI.page=Math.min(Math.max(0,UI.page),pages-1);
  const L=items.slice(UI.page*PER,(UI.page+1)*PER);
- h+=`<div class="card" id="jurnal"><h3>📔 Jurnal</h3><div class="meta">cele mai recente primele</div>${L.length?L.map(logRow).join(''):'<p class="meta">Încă gol. Primul antrenament salvat apare aici.</p>'}
+ h+=`<div class="card" id="jurnal"><h3>📔 Jurnal</h3><div class="meta">cele mai recente primele</div>${L.length?L.map(logRow).join(''):`<div class="center" style="margin-top:12px">${logo(60)}</div><p class="meta center">Încă gol. Primul antrenament salvat apare aici.</p>`}
  ${pages>1?`<div class="pager"><button class="round" ${UI.page===0?'disabled':''} onclick="pageTo(${UI.page-1})">‹</button><span>pagina ${UI.page+1} din ${pages}</span><button class="round" ${UI.page>=pages-1?'disabled':''} onclick="pageTo(${UI.page+1})">›</button></div>`:''}</div>`;
  return h}
 
 function vGuide(){let h=`<div class="hello"><h2>Ghidul tău 📖</h2><div class="meta">Tot ce trebuie știut, pe scurt.</div></div>`;
  const all=Object.values(W).map(w=>`<p><b>${w.em} ${w.n}</b><br><span class="meta">${w.list.map(sl=>`${ex(sl.e).n} ${sl.s}×${sl.r}`).join(' · ')}</span></p>`).join('');
- const li=a=>`<ul>${a.map(x=>`<li>${x[0]} <b>${x[1]}</b>: ${x[2]}</li>`).join('')}</ul>`;
- const warmH=`<p>~5 minute: întâi articulațiile de la gât în jos, apoi câteva mișcări specifice zilei. În aplicație le poți bifa.</p><p><b>1. Articulații (în fiecare zi)</b></p>${li(JOINTS)}<p><b>2a. Zi de picioare</b></p>${li(WEX.lower)}<p><b>2b. Zi de upper</b></p>${li(WEX.upper)}<p><b>2c. Zi full body</b></p>${li(WEX.full)}<p><b>3.</b> O serie ușoară (~jumătate din greutate × 8–10) la primele exerciții. Când greutățile cresc mult, poți adăuga încă una la ~75% × 3–5.</p>`;
+ const li=a=>`<ul>${a.map(x=>`<li>${x[0]} <b>${x[1]}</b>: ${x[2]} · ${x[3]}</li>`).join('')}</ul>`;
+ const warmH=`<p>~5 minute, fără pauze: întâi articulațiile de la gât în jos, apoi câteva mișcări specifice zilei.</p><p><b>1. Articulații (în fiecare zi)</b></p>${li(JOINTS)}<p><b>2a. Zi de picioare</b></p>${li(WEX.lower)}<p><b>2b. Zi de upper</b></p>${li(WEX.upper)}<p><b>2c. Zi full body</b></p>${li(WEX.full)}<p><b>3.</b> O serie ușoară (~jumătate din greutate × 8–10) la primele exerciții. Când greutățile cresc mult, poți adăuga încă una la ~75% × 3–5.</p>`;
  const secs=[{k:'warm',t:'🔥 Încălzire',h:warmH},...GUIDE,{k:'all',t:'📋 Toate antrenamentele',h:all}];
- secs.forEach(x=>{const o=UI.guide[x.k];h+=`<div class="card"><button class="linkish" onclick="UI.guide['${x.k}']=!UI.guide['${x.k}'];render()"><h3>${x.t} <span class="meta">${o?'▴':'▾'}</span></h3></button>${o?(x.ill?`<div class="ill" style="margin:8px 0">${ILL[x.ill]}</div>`:'')+x.h:''}</div>`});
+ secs.forEach(x=>{const o=UI.guide[x.k];h+=`<div class="card" id="g-${x.k}"><button class="linkish" onclick="UI.guide['${x.k}']=!UI.guide['${x.k}'];render()"><h3>${x.t} <span class="meta">${o?'▴':'▾'}</span></h3></button>${o?(x.ill?`<div class="ill" style="margin:8px 0">${ILL[x.ill]}</div>`:'')+x.h:''}</div>`});
  return h}
 
 function vSettings(){const p=P[S.plan],nx=p.seq[S.idx%p.seq.length];
@@ -614,7 +638,8 @@ function vSettings(){const p=P[S.plan],nx=p.seq[S.idx%p.seq.length];
  h+=`<div class="card"><button class="linkish" onclick="tog('weights')"><h3>🏋️ Greutățile mele <span class="meta">${UI.open.weights?'▴':'▾'}</span></h3></button>${UI.open.weights?`<p class="meta">Apasă pe nume ca să setezi reglajul aparatului 🔧</p>`+Object.keys(EX).filter(id=>!ex(id).bw).map(id=>{const e=ex(id),st=setting(id);return `<div class="wline"><div class="ill mini">${ILL[e.i]||ILL.stretch}</div><button class="linkish" onclick="editSet('${id}')">${esc(e.n)}${st?`<br><span class="meta">🔧 ${esc(st)}</span>`:''}</button><input class="kg" inputmode="decimal" value="${fmtKg(baseKg(id))}" placeholder="—" onchange="setBase('${id}',this.value)"><span class="meta">${e.u}</span></div>`}).join(''):''}</div>`;
  h+=`<div class="card"><h3>💾 Backup</h3><p class="meta">Datele tale stau în Safari, pe telefon. Un backup din când în când = liniște. ${S.lastBackup?'Ultimul: '+dm(S.lastBackup)+'.':'Încă niciunul.'}</p><button class="btn block" onclick="exportData()">Salvează backup (fișier)</button><button class="btn ghost block" onclick="copyData()">Copiază ca text</button><label class="btn ghost block filebtn">Încarcă din fișier<input type="file" accept=".json,application/json,text/plain" onchange="importFile(event)"></label><button class="btn ghost block" onclick="openPaste()">Lipește text de backup</button></div>`;
  h+=`<div class="card soft"><h3>📱 Pune-o pe ecranul principal</h3><p>În Safari: butonul <b>Share</b> (pătratul cu săgeată) → <b>Add to Home Screen</b>. Arată ca o aplicație și iPhone-ul nu-i mai șterge datele dacă n-o deschizi o vreme.</p></div>`;
- h+=`<button class="btn ghost block" onclick="resetAll()">🧹 Șterge tot</button><p class="meta" style="text-align:center">Cute Gym Tracker · făcută cu drag 💛</p>`;
+ h+=`<button class="btn ghost block" onclick="resetAll()">🧹 Șterge tot</button>
+ <div class="center" style="margin-top:22px">${logo(64)}</div><p class="meta center" style="margin-top:6px">Cute Gym Tracker · făcută cu drag 💛</p>`;
  return h}
 
 function renderHeader(){const s=S.session;
@@ -626,33 +651,33 @@ function render(){document.querySelectorAll('nav button').forEach(b=>b.classList
  renderHeader()}
 setInterval(()=>{const c=$('#clock');if(c&&S.session&&S.session.start)c.textContent='⏱ '+fmt(Math.floor((Date.now()-S.session.start)/1000))},1000);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden){if(restT)tickRest();if(!document.activeElement||document.activeElement===document.body)render()}});
+
 /* ============ favicon + iconiță ecran principal ============ */
 (function(){
- const K='#4a3426',BG='#f6dcb0',RED='#e2674a',LEAF='#8fae7e',CHEEK='#ffc2b8';
- const HANDLE='M22 30C20 14 44 14 42 30',L1='M32 15Q27 6 21 9Q25 15 32 15Z',L2='M32 15Q37 5 44 8Q39 15 32 15Z',SMILE='M28 45Q32 49 36 45',SHINE='M22 37Q22.5 31.5 27 29';
- const svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect x="1.5" y="1.5" width="61" height="61" rx="16" fill="${BG}" stroke="${K}" stroke-width="3"/><path d="${HANDLE}" fill="none" stroke="${K}" stroke-width="5" stroke-linecap="round"/><path d="${L1}" fill="${LEAF}" stroke="${K}" stroke-width="1.8" stroke-linejoin="round"/><path d="${L2}" fill="${LEAF}" stroke="${K}" stroke-width="1.8" stroke-linejoin="round"/><circle cx="32" cy="40" r="16" fill="${RED}" stroke="${K}" stroke-width="3"/><path d="${SHINE}" fill="none" stroke="#fff" stroke-opacity=".75" stroke-width="2.2" stroke-linecap="round"/><circle cx="23.5" cy="44" r="2.6" fill="${CHEEK}"/><circle cx="40.5" cy="44" r="2.6" fill="${CHEEK}"/><circle cx="26.5" cy="39" r="2.3" fill="${K}"/><circle cx="37.5" cy="39" r="2.3" fill="${K}"/><path d="${SMILE}" fill="none" stroke="${K}" stroke-width="2.2" stroke-linecap="round"/></svg>`;
  function link(rel,href,type,sizes){const l=document.createElement('link');l.rel=rel;l.href=href;if(type)l.type=type;if(sizes)l.setAttribute('sizes',sizes);document.head.appendChild(l)}
  function rr(x,a,b,w,h,r){x.beginPath();x.moveTo(a+r,b);x.arcTo(a+w,b,a+w,b+h,r);x.arcTo(a+w,b+h,a,b+h,r);x.arcTo(a,b+h,a,b,r);x.arcTo(a,b,a+w,b,r);x.closePath()}
  function png(size,full){
   const c=document.createElement('canvas');c.width=c.height=size;const x=c.getContext('2d');
-  if(full){x.fillStyle=BG;x.fillRect(0,0,size,size);const s=size/64*1.08;x.translate(size/2,size/2);x.scale(s,s);x.translate(-32,-31)}
-  else{x.scale(size/64,size/64);rr(x,1.5,1.5,61,61,16);x.fillStyle=BG;x.fill();x.lineWidth=3;x.strokeStyle=K;x.stroke()}
+  if(full){x.fillStyle=LBG;x.fillRect(0,0,size,size);const s=size/64*1.08;x.translate(size/2,size/2);x.scale(s,s);x.translate(-32,-31)}
+  else{x.scale(size/64,size/64);rr(x,1.5,1.5,61,61,16);x.fillStyle=LBG;x.fill();x.lineWidth=3;x.strokeStyle=LK;x.stroke()}
   x.lineCap='round';x.lineJoin='round';
-  const st=(d,w,col)=>{x.lineWidth=w;x.strokeStyle=col||K;x.stroke(new Path2D(d))};
+  const st=(d,w,col)=>{x.lineWidth=w;x.strokeStyle=col||LK;x.stroke(new Path2D(d))};
   const fl=(d,col)=>{x.fillStyle=col;x.fill(new Path2D(d))};
   const dot=(cx,cy,r,col)=>{x.beginPath();x.arc(cx,cy,r,0,Math.PI*2);x.fillStyle=col;x.fill()};
-  st(HANDLE,5);
-  fl(L1,LEAF);st(L1,1.8);fl(L2,LEAF);st(L2,1.8);
-  x.beginPath();x.arc(32,40,16,0,Math.PI*2);x.fillStyle=RED;x.fill();x.lineWidth=3;x.strokeStyle=K;x.stroke();
-  x.globalAlpha=.75;st(SHINE,2.2,'#fff');x.globalAlpha=1;
-  dot(23.5,44,2.6,CHEEK);dot(40.5,44,2.6,CHEEK);dot(26.5,39,2.3,K);dot(37.5,39,2.3,K);
-  st(SMILE,2.2);
+  st(LP.h,5);
+  fl(LP.l1,LLEAF);st(LP.l1,1.8);fl(LP.l2,LLEAF);st(LP.l2,1.8);
+  x.beginPath();x.arc(32,40,16,0,Math.PI*2);x.fillStyle=LRED;x.fill();x.lineWidth=3;x.strokeStyle=LK;x.stroke();
+  x.globalAlpha=.75;st(LP.sh,2.2,'#fff');x.globalAlpha=1;
+  dot(23.5,44,2.6,LCHEEK);dot(40.5,44,2.6,LCHEEK);dot(26.5,39,2.3,LK);dot(37.5,39,2.3,LK);
+  st(LP.sm,2.2);
   return c.toDataURL('image/png')}
  document.querySelectorAll('link[rel~="icon"],link[rel="apple-touch-icon"]').forEach(l=>l.remove());
- link('icon','data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg),'image/svg+xml');
+ link('icon','data:image/svg+xml;charset=utf-8,'+encodeURIComponent(LOGO_SVG),'image/svg+xml');
  try{link('icon',png(64,false),'image/png','64x64');link('apple-touch-icon',png(180,true),null,'180x180')}catch(e){}
 })();
+
 if(navigator.storage&&navigator.storage.persist)navigator.storage.persist().catch(()=>{});
+$('#hdrLogo').outerHTML=logo(38);
 applyTheme();
 render();
 </script>
