@@ -167,7 +167,7 @@ nav button.on{color:var(--ink);background:var(--hi)}
 <body>
 <header><h1 class="brand" onclick="go('azi')"><span id="hdrLogo"></span><span class="txt">Cute Gym Tracker</span></h1><div id="hdrR"></div></header>
 <main id="app"></main>
-<div id="rest"><span>☕ pauză</span><b id="restNum">1:30</b><button onclick="addRest(15)">+15s</button><button onclick="stopRest()">✕</button></div>
+<div id="rest"><span id="restLbl">☕ pauză</span><b id="restNum">1:30</b><button onclick="addRest(15)">+15s</button><button onclick="stopRest()">✕</button></div>
 <div id="toast"></div>
 <div id="modal" onclick="closeModal()"></div>
 <nav>
@@ -278,7 +278,7 @@ const EX={
  calves:{n:'Gambe la Leg Press',i:'calf',kg:75,alt:['calvesh','calvess'],t:['Doar vârfurile pe platformă','Coboară călcâiele complet','Urcă sus, pauză o secundă']},
  calvesh:{like:'calves',n:'Gambe la Horse Machine',kg:7.5},
  calvess:{like:'calves',n:'Gambe în picioare',kg:20},
- plank:{n:'Plank',i:'plank',bw:1,t:['Corpul linie dreaptă, fundul nu sus','Abdomenul și fesierii strânși','Respiră normal']},
+  plank:{n:'Plank',i:'plank',iso:1,hold:30,holdMax:60,kg:0,st:2.5,u:'kg în plus',t:['Corpul linie dreaptă, fundul nu sus','Abdomenul și fesierii strânși','Respiră normal','La 60 sec nu mai crește timpul: pune un disc pe spate și scade înapoi la 30']},
  deadbug:{n:'Dead Bug',i:'deadbug',bw:1,t:['Zona lombară lipită de saltea','Întinzi încet brațul și piciorul opus','Expiră când întinzi']},
  pallof:{n:'Pallof Press',i:'pallof',t:['Lateral față de cablu','Împingi mâinile drept înainte, fără să te răsucești','2 secunde cu brațele întinse','Apoi pe cealaltă parte']}
 };
@@ -309,7 +309,7 @@ const W={
  FB_A:{n:'Full Body A',em:'🌷',wu:'full',sub:'picioare, spate și un strop de piept',list:[
   {e:'vsquat',s:3,r:'10–12',wu:1,rest:90},{e:'rdl',s:3,r:'10–12',wu:1,rest:90},{e:'pulldown',s:3,r:'10–12',wu:1,rest:75},
   {e:'chest',s:3,r:'10–12'},{e:'kick',s:3,r:'12'},{e:'facepull',s:3,r:'12–15',g:CAB1},{e:'pushdown',s:3,r:'10–12',g:CAB2},
-  {e:'plank',s:2,r:'20–40 sec',core:1}],
+  {e:'plank',s:2,r:'ținere',core:1}],
   bonus:[{e:'curl',s:2,r:'10–12'},{e:'lateral',s:2,r:'12–15'},{e:'legext',s:2,r:'12'}]},
  FB_B:{n:'Full Body B',em:'🌻',wu:'full',sub:'fesieri, umeri și spate',list:[
   {e:'hipthrust',s:4,r:'10–12',wu:1,rest:90},{e:'legpress',s:3,r:'10–12',wu:1,rest:90},{e:'calves',s:3,r:'15',g:LPR},
@@ -326,12 +326,12 @@ const W={
   bonus:[{e:'chest',s:2,r:'10–12'},{e:'reardelt',s:2,r:'12–15'}]},
  LOWER:{n:'Lower Body',em:'🌼',wu:'lower',sub:'picioare și fesieri',list:[
   {e:'legpress',s:3,r:'10–12',wu:1,rest:90},{e:'calves',s:3,r:'12–15',g:LPR},{e:'hipthrust',s:4,r:'10–12',wu:1,rest:90},
-  {e:'legext',s:3,r:'10–12'},{e:'legcurl',s:3,r:'10–12'},{e:'abd',s:3,r:'15'},{e:'plank',s:2,r:'20–40 sec',core:1}],
+  {e:'legext',s:3,r:'10–12'},{e:'legcurl',s:3,r:'10–12'},{e:'abd',s:3,r:'15'},{e:'plank',s:2,r:'ținere',core:1}],
   bonus:[{e:'add',s:2,r:'15'}]},
  LOWER2:{n:'Lower (2 zile)',em:'🥕',wu:'lower',sub:'picioare și fesieri',list:[
   {e:'legpress',s:3,r:'10–12',wu:1,rest:90},{e:'calves',s:3,r:'15',g:LPR},{e:'hipthrust',s:4,r:'10–12',wu:1,rest:90},
   {e:'rdl',s:3,r:'10–12',wu:1,rest:90},{e:'legcurl',s:3,r:'10–12'},{e:'legext',s:3,r:'10–12'},{e:'abd',s:2,r:'15',opt:1},
-  {e:'plank',s:2,r:'20–40 sec',core:1}],
+  {e:'plank',s:2,r:'ținere',core:1}],
   bonus:[{e:'add',s:2,r:'15'}]},
  UPPER2:{n:'Upper (2 zile)',em:'🍒',wu:'upper',sub:'spate, umeri, piept și brațe',list:[
   {e:'pulldown',s:3,r:'10–12',wu:1,rest:90},{e:'chest',s:3,r:'10–12'},{e:'row',s:3,r:'10–12'},{e:'shoulder',s:3,r:'10–12'},
@@ -367,14 +367,14 @@ const GUIDE=[
  {k:'cozy',t:'🌙 Zilele cozy',h:`<p>Pentru zilele în care ești obosită sau nu te simți în apele tale:</p><ul><li>greutățile scad cu ~30% și ai o serie în minus;</li><li>extra-urile dispar, iar ce te deranjează poți sări;</li><li>greutățile tale normale rămân neatinse.</li></ul><p>Un antrenament ușor tot contează și de multe ori te face să te simți mai bine. 🌷</p>`},
  {k:'rest',t:'⏱️ Pauze',h:`<ul><li>~90 s la exercițiile mari (primele din listă)</li><li>~60 s la restul</li><li>Timerul pornește singur când bifezi o serie. Îl poți opri din Setări.</li></ul>`},
  {k:'abad',t:'↔️ Abductor sau adductor?',h:`<div class="row"><div class="ill">${ILL.abduct}</div><div><b>ABductor</b><br><span class="meta">pernuțe pe exterior, deschizi picioarele în afară</span></div></div><div class="row"><div class="ill">${ILL.adduct}</div><div><b>ADductor</b><br><span class="meta">pernuțe pe interior, strângi picioarele înăuntru</span></div></div><p>Truc: <b>AD</b>ductor = <b>AD</b>uci picioarele împreună.</p>`},
- {k:'core',t:'🧘 Core',ill:'deadbug',h:`<p>Un singur exercițiu la final, 2 serii, diferit de la o zi la alta:</p><ul><li><b>Plank:</b> corpul linie dreaptă, abdomen și fesieri strânși, 20–40 s.</li><li><b>Dead bug:</b> pe spate, lombara lipită de saltea, întinzi încet brațul și piciorul opus. 6–8 pe parte.</li><li><b>Pallof press:</b> lateral față de cablu, împingi mâinile înainte fără să te lași răsucită. 8 pe parte.</li></ul>`},
+ {k:'core',t:'🧘 Core',ill:'deadbug',h:`<p>Un singur exercițiu la final, 2 serii, diferit de la o zi la alta:</p><ul><li><b>Plank:</b> corpul linie dreaptă, abdomen și fesieri strânși, 30–60 s, apoi un disc pe piept și înapoi la 30 s.</li><li><b>Dead bug:</b> pe spate, lombara lipită de saltea, întinzi încet brațul și piciorul opus. 6–8 pe parte.</li><li><b>Pallof press:</b> lateral față de cablu, împingi mâinile înainte fără să te lași răsucită. 8 pe parte.</li></ul>`},
  {k:'str',t:'🤸 Stretching (opțional, acasă)',ill:'stretch',h:`<p>20–30 s fiecare, fără durere. Ajută la mobilitate și relaxare. Accidentările le previn mai ales încălzirea și forma corectă.</p><ul><li>Cvadriceps: în picioare, prinzi glezna la fund</li><li>Spatele coapsei: un picior pe o treaptă, te apleci cu spatele drept</li><li>Fesieri: „cifra 4” pe scaun</li><li>Piept: antebrațul pe tocul ușii, un pas înainte</li><li>Gambe: mâinile pe perete, un picior în spate</li></ul>`},
  {k:'desk',t:'💻 Postura de birou',h:`<p>2–3 minute, oricând în timpul zilei:</p><ul><li><b>Chin tucks:</b> bărbia trasă drept înapoi, 3 s × 10</li><li><b>Piept la ușă:</b> 30 s</li><li><b>Extensie toracică:</b> mâinile după cap, te lași ușor pe spate peste spătar × 8</li><li><b>Flexori de șold:</b> fandare, fundul strâns, 30 s pe parte</li></ul><p>Cel mai mult ajută să te ridici și să schimbi poziția la fiecare 30–45 de minute. 🚶‍♀️</p>`},
  {k:'tips',t:'🌿 Sfaturi pentru rezultate',h:`<ul><li><b>Proteine:</b> ~1,6 g pe kg corp pe zi, ca să păstrezi mușchii cât timp slăbești.</li><li><b>Pași:</b> 7.000–10.000 pe zi contează enorm la slăbit.</li><li><b>Anduranță:</b> plimbări lungi, drumeții sau bicicletă în weekend. Opțional, 5–8 min de bicicletă cu intervale la final de antrenament.</li><li><b>Somn:</b> atunci se refac mușchii.</li><li><b>„Prea musculoasă”?</b> Cu 2 antrenamente pe săptămână și deficit caloric nu se întâmplă. Ce vezi e exact tonifierea. 💪</li></ul>`}
 ];
 
 /* ============ stare (salvată în telefon) ============ */
-const DEF={name:'',plan:'fbab',mode:'day',idx:0,cozy:false,restOn:true,sound:true,goal:2,theme:'auto',w:{},set:{},notes:{},top:{},logs:[],skips:{},session:null,lastBackup:null,snooze:0};
+const DEF={name:'',plan:'fbab',mode:'day',idx:0,cozy:false,restOn:true,sound:true,isoSound:true,goal:2,theme:'auto',w:{},hold:{},set:{},notes:{},top:{},logs:[],skips:{},session:null,lastBackup:null,snooze:0};
 let S=load();
 function load(){try{return Object.assign(clone(DEF),JSON.parse(localStorage.getItem(KEY)||'null')||{})}catch(e){return clone(DEF)}}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){toast('Nu am putut salva 😕')}}
@@ -403,6 +403,11 @@ function curEx(key,sl){return(S.session&&S.session.alt[key])||sl.e}
 function baseKg(id){return S.w[id]!=null?S.w[id]:ex(id).kg}
 function shownKg(id){const s=S.session;if(s&&s.kg[id]!=null)return s.kg[id];const b=baseKg(id);return(S.cozy&&b!=null)?Math.round(b*0.7*4)/4:b}
 function setting(id){return S.set[id]!=null?S.set[id]:ex(id).set}
+function holdOf(id){const v=S.hold[id]!=null?S.hold[id]:(ex(id).hold||30);return S.cozy?Math.max(10,Math.round(v*0.7/5)*5):v}
+function setHold(id,v){v=parseNum(v);if(v==null){render();return}const mx=ex(id).holdMax||45;
+ if(v>mx){v=mx;toast('Maxim '+mx+' sec · mai bine adaugă greutate 🪶')}
+ S.hold[id]=Math.max(5,Math.round(v));save();render()}
+function stepHold(id,d){setHold(id,holdOf(id)+d)}
 function sets(sl){return S.cozy?Math.max(sl.core?1:2,sl.s-1):sl.s}
 function topRep(r){const m=r.match(/\d+/g);return m?m[m.length-1]:'max'}
 function slotsOf(w){return[...w.list.map((sl,i)=>[sl,'m'+i]),...(w.bonus||[]).map((sl,i)=>[{...sl,bonus:1},'b'+i])]}
@@ -417,7 +422,7 @@ function tapDot(key,i,rest,n){unlockAudio();const s=ensure();startIfNeeded(s);co
  const c=a.slice(0,n).filter(Boolean).length;if(a[i]){if(c>=n){stopRest();toast(pick(YAY))}else startRest(rest)}render()}
 function tapWarm(key){unlockAudio();const s=ensure();startIfNeeded(s);s.warm[key]=!s.warm[key];save();if(s.warm[key])startRest(60);render()}
 function setKg(id,v){v=parseNum(v);if(v===undefined){render();return}const s=ensure();s.kg[id]=v;if(!S.cozy)S.w[id]=v;save();render()}
-function stepKg(id,dir){const cur=shownKg(id);const v=Math.max(0,Math.round(((cur??0)+dir*STEP)*100)/100);setKg(id,String(v))}
+function stepKg(id,dir){const cur=shownKg(id);const v=Math.max(0,Math.round(((cur??0)+dir*(ex(id).st||STEP))*100)/100);setKg(id,String(v))}
 function setBase(id,v){v=parseNum(v);if(v===undefined){render();return}if(v===null)delete S.w[id];else S.w[id]=v;save();render()}
 function editSet(id){modal(`<h3>🔧 Reglaj · ${esc(ex(id).n)}</h3><p class="meta">Cum reglezi aparatul ca să-l potrivești la fel data viitoare: înălțimea scaunului, poziția spătarului sau a rolei, pinul de start.</p><input id="setIn" class="inp" value="${esc(setting(id))}" placeholder="ex: scaun 3, spătar 2, rola la 5"><button class="btn block" onclick="saveSet('${id}')">Salvez</button><button class="btn ghost block" onclick="closeModal()">Renunță</button>`)}
 function saveSet(id){S.set[id]=$('#setIn').value.trim();save();closeModal();render()}
@@ -447,15 +452,24 @@ function undoSkip(){delete S.skips[todayKey()];save();render();toast('Hai că po
 async function delSkip(d){if(!await ask({emoji:'🗑️',title:'Ștergi ziua de odihnă?',text:d===todayKey()?'Dacă o ștergi, azi poți face din nou antrenamentul.':'Dispare din jurnal și din calendar.',ok:'Da, șterge',cancel:'Nu'}))return;delete S.skips[d];save();render()}
 
 /* ============ timer pauză + sunet ============ */
-let restT=null,restEnd=0,AC=null;
+let restT=null,restEnd=0,AC=null,iso=null;
 function unlockAudio(){try{if(!AC)AC=new(window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume()}catch(e){}}
-function beep(){if(!S.sound||!AC)return;[660,880,990].forEach((f,i)=>{const t=AC.currentTime+i*0.18,o=AC.createOscillator(),g=AC.createGain();o.type='triangle';o.frequency.value=f;
+function beep(ok){if(!ok||!AC)return;[660,880,990].forEach((f,i)=>{const t=AC.currentTime+i*0.18,o=AC.createOscillator(),g=AC.createGain();o.type='triangle';o.frequency.value=f;
  g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(0.25,t+0.02);g.gain.exponentialRampToValueAtTime(0.0001,t+0.16);o.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+0.2)});
  if(navigator.vibrate)navigator.vibrate([120,60,120])}
-function startRest(sec){if(!S.restOn)return;restEnd=Date.now()+sec*1000;clearInterval(restT);restT=setInterval(tickRest,250);tickRest();$('#rest').classList.add('show')}
-function tickRest(){const left=Math.ceil((restEnd-Date.now())/1000);if(left<=0){stopRest();beep();toast('Gata pauza! 💪');return}$('#restNum').textContent=fmt(left)}
+function startRest(sec,lbl){if(!lbl&&!S.restOn)return;restEnd=Date.now()+sec*1000;$('#restLbl').textContent=lbl||'☕ pauză';clearInterval(restT);restT=setInterval(tickRest,250);tickRest();$('#rest').classList.add('show')}
+function tickRest(){const left=Math.ceil((restEnd-Date.now())/1000);
+ if(left>0){$('#restNum').textContent=fmt(left);return}
+ const h=iso;stopRest();
+ if(h&&S.session&&S.session.done[h.key]){const a=S.session.done[h.key];a[h.i]=true;save();beep(S.isoSound);
+  const c=a.slice(0,h.n).filter(Boolean).length;toast(c>=h.n?pick(YAY):'Serie bifată! 💪');if(c<h.n)startRest(h.rest);render()}
+ else{beep(S.sound);toast('Gata pauza! 💪')}}
 function addRest(x){restEnd+=x*1000;tickRest()}
-function stopRest(){clearInterval(restT);restT=null;$('#rest').classList.remove('show')}
+function stopRest(){clearInterval(restT);restT=null;iso=null;$('#rest').classList.remove('show')}
+function startHold(key,n,rest,sec){unlockAudio();const s=ensure();startIfNeeded(s);const a=s.done[key]||(s.done[key]=[]);
+ let i=0;while(i<n&&a[i])i++;
+ if(i>=n){toast('Toate seriile sunt bifate ✅');return}
+ iso={key,i,n,rest};startRest(sec,'⏳ ține poziția');render()}
 
 /* ============ ferestre ============ */
 let tt,askCb=null;
@@ -523,16 +537,17 @@ function exCard(sl,key){const s=S.session,id=curEx(key,sl),e=ex(id),main=sl.e,n=
  const done=(s&&s.done[key])||[],warmDone=s&&s.warm[key],all=done.slice(0,n).filter(Boolean).length>=n;
  let dots=sl.wu?`<button class="dot warm ${warmDone?'done':''}" onclick="tapWarm('${key}')">${warmDone?'✓':'înc.'}</button>`:'';
  for(let i=0;i<n;i++)dots+=`<button class="dot ${done[i]?'done':''}" onclick="tapDot('${key}',${i},${rest},${n})">${done[i]?'✓':i+1}</button>`;
- const kg=shownKg(id),isAlt=id!==main,opts=[main,...ex(main).alt],st=setting(id);
+ const kg=shownKg(id),hold=holdOf(id),isAlt=id!==main,opts=[main,...ex(main).alt],st=setting(id);
+ const isoRow=!e.iso?'':`<div class="wrow"><button class="round" onclick="stepHold('${id}',-5)">−</button><input class="kg" inputmode="numeric" value="${hold}" onchange="setHold('${id}',this.value)"><button class="round" onclick="stepHold('${id}',5)">+</button><span class="meta">sec</span>${S.cozy?'<span class="meta">🌙 normal: '+(S.hold[id]!=null?S.hold[id]:(ex(id).hold||30))+' sec</span>':''}<button class="btn small sage" onclick="startHold('${key}',${n},${rest},${hold})">▶️ start</button></div>${hold>=(e.holdMax||45)?'<div class="meta">🪶 Ai atins maximul de timp. Mai departe crește greutatea, nu secundele.</div>':''}`;
  const fresh=!e.bw&&baseKg(id)==null&&!(s&&s.kg[id]!=null);
  const wr=e.bw?'':`<div class="wrow"><button class="round" onclick="stepKg('${id}',-1)">−</button><input class="kg" inputmode="decimal" value="${fmtKg(kg)}" placeholder="?" onchange="setKg('${id}',this.value)"><button class="round" onclick="stepKg('${id}',1)">+</button><span class="meta">${e.u}</span></div>
  <div><button class="chip" onclick="editSet('${id}')">🔧 ${st?'reglaj: '+esc(st):'reglaj aparat (scaun, spătar…)'}</button></div>${S.cozy&&baseKg(id)!=null?`<div class="meta">🌙 de obicei: ${fmtKg(baseKg(id))} ${e.u}</div>`:''}`;
  const lvl=(!S.cozy&&!e.bw&&S.top[id]!=null&&S.top[id]===baseKg(id)&&!(s&&s.top[id]))?`<div class="stamp">✨ Data trecută: ${topRep(sl.r)} la toate! Azi încearcă un pas mic: +0,25 kg, o repetare în plus sau o coborâre mai lentă 🌱</div>`:'';
  return `<div class="card ${all?'finished':''}">${sl.g?`<div class="group-label">${sl.g}</div>`:''}
  <div class="ex-head"><div class="ill">${ILL[e.i]||ILL.stretch}</div><div style="flex:1;min-width:0"><div class="ex-title">${esc(e.n)} ${all?'✅':''}</div>
- <div class="meta">${n} × ${sl.r}${e.bw?'':' · pauză '+rest+'s'}${sl.opt?' · <b>opțional / dacă e liber</b>':''}${sl.bonus?' · bonus':''}</div>${e.hint?`<div class="hint">${e.hint}</div>`:''}${isAlt?'<span class="chip on">Plan B</span>':''}</div></div>
+ <div class="meta">${n} × ${e.iso?hold+' sec':sl.r}${e.bw?'':' · pauză '+rest+'s'}${sl.opt?' · <b>opțional / dacă e liber</b>':''}${sl.bonus?' · bonus':''}</div>${e.hint?`<div class="hint">${e.hint}</div>`:''}${isAlt?'<span class="chip on">Plan B</span>':''}</div></div>
  <div class="dots">${dots}</div>${sl.wu&&!warmDone?`<div class="meta">🔥 serie ușoară: ${e.w||'~jumătate din greutate × 8–10'}</div>`:''}
- ${wr}${fresh?`<div class="tips">🆕 Prima dată aici: o serie ușoară, apoi alege o greutate cu care ai mai putea face 2–3 repetări. Scrie-o și o țin eu minte 🧠</div>`:''}${lvl}
+ ${isoRow}${wr}${fresh?`<div class="tips">🆕 Prima dată aici: o serie ușoară, apoi alege o greutate cu care ai mai putea face 2–3 repetări. Scrie-o și o țin eu minte 🧠</div>`:''}${lvl}
  <div class="actions">${opts.length>1?`<button class="btn small ghost" onclick="swapAlt('${key}','${main}')">🔁 ${isAlt?'altă variantă':'aparat ocupat?'}</button>`:''}<button class="btn small ghost" onclick="tog('t${key}')">💡 sfaturi</button><button class="btn small ghost" onclick="tog('n${key}')">📝 notiță${S.notes[id]?' ✓':''}</button></div>
  ${UI.open['t'+key]?`<ul class="tips">${e.t.map(x=>`<li>${x}</li>`).join('')}</ul>`:''}
  ${UI.open['n'+key]?`<textarea placeholder="ex: la aparatul din colț…" onchange="setNote('${id}',this.value)">${esc(S.notes[id]||'')}</textarea>`:(S.notes[id]?`<div class="note">📝 ${esc(S.notes[id])}</div>`:'')}
@@ -634,7 +649,7 @@ function vSettings(){const p=P[S.plan],nx=p.seq[S.idx%p.seq.length];
  h+=`<div class="card"><h3>🎯 Obiectiv pe săptămână</h3><div class="goal">${[1,2,3,4,5].map(n=>`<button class="gbtn ${S.goal===n?'on':''}" onclick="setGoal(${n})">${n}</button>`).join('')}</div><p class="meta">${S.goal} ${S.goal===1?'antrenament':'antrenamente'} pe săptămână · inimioarele din „Azi” urmăresc asta.</p>${S.goal>=4?'<p class="meta">💡 La 4–5 zile, lasă măcar o zi între antrenamentele grele pentru aceleași grupe (de ex. o rotație cu upper/lower).</p>':''}</div>`;
  h+=`<div class="card taped"><h3>🗂️ Planul</h3>${Object.entries(P).map(([k,q])=>`<button class="plan ${S.plan===k?'on':''}" onclick="setPlan('${k}')"><b>${q.star?'⭐ ':''}${q.n}</b><span>${q.d}</span><span class="meta">${q.seq.map(w=>W[w].em+' '+W[w].n).join(' → ')}</span></button>`).join('')}<p class="meta">Următorul la rând: ${W[nx].em} ${W[nx].n}</p></div>`;
  h+=`<div class="card"><h3>🗓️ Cum aleg antrenamentul</h3><div class="row"><button class="chip ${S.mode==='day'?'on':''}" onclick="S.mode='day';save();render()">după zi</button><button class="chip ${S.mode==='next'?'on':''}" onclick="S.mode='next';save();render()">următorul la rând</button></div><p class="meta">${S.mode==='day'?'În zilele planului îți arăt antrenamentul zilei.':'Îți arăt mereu următorul antrenament, în orice zi. Dacă sari o zi, nu se strică nimic.'}${p.days?'':' (Planul ăsta e oricum o rotație.)'}</p></div>`;
- h+=`<div class="card"><div class="switch"><span>🌙 Zi cozy</span><button class="tog ${S.cozy?'on':''}" onclick="toggleCozy()"></button></div><div class="switch"><span>⏱️ Timer de pauză</span><button class="tog ${S.restOn?'on':''}" onclick="flip('restOn')"></button></div><div class="switch"><span>🔔 Sunet la final de pauză</span><button class="tog ${S.sound?'on':''}" onclick="flip('sound')"></button></div><p class="meta">Sunetul nu se aude dacă iPhone-ul e pe silențios.</p></div>`;
+ h+=`<div class="card"><div class="switch"><span>🌙 Zi cozy</span><button class="tog ${S.cozy?'on':''}" onclick="toggleCozy()"></button></div><div class="switch"><span>⏱️ Timer de pauză</span><button class="tog ${S.restOn?'on':''}" onclick="flip('restOn')"></button></div><div class="switch"><span>🔔 Sunet la final de pauză</span><button class="tog ${S.sound?'on':''}" onclick="flip('sound')"></button></div><div class="switch"><span>⏳ Sunet la final de ținere</span><button class="tog ${S.isoSound?'on':''}" onclick="flip('isoSound')"></button></div><p class="meta">Sunetul nu se aude dacă iPhone-ul e pe silențios.</p></div>`;
  h+=`<div class="card"><button class="linkish" onclick="tog('weights')"><h3>🏋️ Greutățile mele <span class="meta">${UI.open.weights?'▴':'▾'}</span></h3></button>${UI.open.weights?`<p class="meta">Apasă pe nume ca să setezi reglajul aparatului 🔧</p>`+Object.keys(EX).filter(id=>!ex(id).bw).map(id=>{const e=ex(id),st=setting(id);return `<div class="wline"><div class="ill mini">${ILL[e.i]||ILL.stretch}</div><button class="linkish" onclick="editSet('${id}')">${esc(e.n)}${st?`<br><span class="meta">🔧 ${esc(st)}</span>`:''}</button><input class="kg" inputmode="decimal" value="${fmtKg(baseKg(id))}" placeholder="—" onchange="setBase('${id}',this.value)"><span class="meta">${e.u}</span></div>`}).join(''):''}</div>`;
  h+=`<div class="card"><h3>💾 Backup</h3><p class="meta">Datele tale stau în Safari, pe telefon. Un backup din când în când = liniște. ${S.lastBackup?'Ultimul: '+dm(S.lastBackup)+'.':'Încă niciunul.'}</p><button class="btn block" onclick="exportData()">Salvează backup (fișier)</button><button class="btn ghost block" onclick="copyData()">Copiază ca text</button><label class="btn ghost block filebtn">Încarcă din fișier<input type="file" accept=".json,application/json,text/plain" onchange="importFile(event)"></label><button class="btn ghost block" onclick="openPaste()">Lipește text de backup</button></div>`;
  h+=`<div class="card soft"><h3>📱 Pune-o pe ecranul principal</h3><p>În Safari: butonul <b>Share</b> (pătratul cu săgeată) → <b>Add to Home Screen</b>. Arată ca o aplicație și iPhone-ul nu-i mai șterge datele dacă n-o deschizi o vreme.</p></div>`;
