@@ -119,6 +119,12 @@ nav button.on{color:var(--ink);background:var(--hi)}
 #rest.show{display:flex}
 #rest b{font-size:26px;min-width:56px;text-align:center}
 #rest button{border:2px solid var(--bd);background:var(--card);border-radius:999px;padding:3px 10px;font-size:15px}
+.rbtns{display:flex;gap:8px}
+#rest.big{bottom:auto;top:50%;transform:translate(-50%,-50%);flex-direction:column;gap:4px;padding:20px 30px;border-radius:30px;box-shadow:5px 6px 0 var(--shadow)}
+#rest.big b{font-size:86px;line-height:1;min-width:0}
+#rest.big>span:first-child{font-size:22px}
+#rest.big .rbtns{margin-top:8px}
+#rest.big button{font-size:17px;padding:6px 14px}
 #modal{position:fixed;inset:0;background:var(--backdrop);z-index:50;display:none;align-items:flex-start;justify-content:center;padding:calc(env(safe-area-inset-top) + 5vh) 12px 20px;overflow-y:auto;-webkit-overflow-scrolling:touch}
 #modal.show{display:flex}
 .sheet{background:var(--paper);width:100%;max-width:480px;border:3px solid var(--bd);border-radius:24px 10px 24px 12px;padding:20px 16px;box-shadow:5px 6px 0 var(--shadow);animation:rise .25s ease-out;margin:0 auto 20px}
@@ -167,7 +173,7 @@ nav button.on{color:var(--ink);background:var(--hi)}
 <body>
 <header><h1 class="brand" onclick="go('azi')"><span id="hdrLogo"></span><span class="txt">Cute Gym Tracker</span></h1><div id="hdrR"></div></header>
 <main id="app"></main>
-<div id="rest"><span id="restLbl">☕ pauză</span><b id="restNum">1:30</b><button onclick="addRest(15)">+15s</button><button onclick="stopRest()">✕</button></div>
+<div id="rest"><span id="restLbl">☕ pauză</span><b id="restNum">1:30</b><span class="rbtns"><button onclick="addRest(15)">+15s</button><button onclick="stopRest()">✕</button></span></div>
 <div id="toast"></div>
 <div id="modal" onclick="closeModal()"></div>
 <nav>
@@ -278,7 +284,7 @@ const EX={
  calves:{n:'Gambe la Leg Press',i:'calf',kg:75,alt:['calvesh','calvess'],t:['Doar vârfurile pe platformă','Coboară călcâiele complet','Urcă sus, pauză o secundă']},
  calvesh:{like:'calves',n:'Gambe la Horse Machine',kg:7.5},
  calvess:{like:'calves',n:'Gambe în picioare',kg:20},
-  plank:{n:'Plank',i:'plank',iso:1,hold:30,holdMax:60,kg:0,st:2.5,u:'kg în plus',t:['Corpul linie dreaptă, fundul nu sus','Abdomenul și fesierii strânși','Respiră normal','La 60 sec nu mai crește timpul: pune un disc pe spate și scade înapoi la 30']},
+ plank:{n:'Plank',i:'plank',iso:1,hold:30,holdMax:60,kg:0,st:2.5,u:'kg în plus',t:['Corpul linie dreaptă, fundul nu sus','Abdomenul și fesierii strânși','Respiră normal','La 60 sec nu mai crește timpul: pune un disc pe spate și scade înapoi la 30']},
  deadbug:{n:'Dead Bug',i:'deadbug',bw:1,t:['Zona lombară lipită de saltea','Întinzi încet brațul și piciorul opus','Expiră când întinzi']},
  pallof:{n:'Pallof Press',i:'pallof',t:['Lateral față de cablu','Împingi mâinile drept înainte, fără să te răsucești','2 secunde cu brațele întinse','Apoi pe cealaltă parte']}
 };
@@ -363,18 +369,19 @@ const GUIDE=[
 <p>Alege <b>un singur</b> lucru nou pe rând. Și nu în zilele cozy 🌙</p>`},
  {k:'busy',t:'🔁 Aparat ocupat?',h:`<ul><li>Apasă „aparat ocupat?” pe exercițiu. Trec pe Plan B, care își ține <b>propria greutate</b>.</li><li>Prima dată pe un aparat nou: o serie ușoară, apoi o greutate cu care ai mai putea face 2–3 repetări.</li><li>Poți schimba liniștită ordinea exercițiilor. Nu strică nimic 💛</li></ul>`},
  {k:'reglaj',t:'🔧 Ce e „reglaj aparat”?',h:`<p>Un loc în care îți notezi cum reglezi aparatul, ca data viitoare să-l potrivești la fel din prima:</p><ul><li>înălțimea scaunului („scaun 3”);</li><li>poziția spătarului sau a rolei („spătar 2, rola la 5”);</li><li>pinul sau nivelul de start („nivel B”).</li></ul><p>Apeși pe 🔧 de pe exercițiu și scrii.</p>`},
+ {k:'iso',t:'⏳ Exercițiile pe timp',ill:'plank',h:`<p>La plank și la celelalte ținute, apeși <b>▶️ start</b> și aplicația numără pentru tine:</p><ul><li>întâi o <b>pregătire</b> de câteva secunde, cu bipuri scurte, cât te așezi în poziție;</li><li>un ton mai înalt = <b>acum începe</b> ținerea;</li><li>bipuri în ultimele 3 secunde, apoi semnalul de final, care bifează seria și pornește pauza.</li></ul><p>Durata pregătirii o schimbi din Setări, iar dacă nu vrei deloc, pui „–”.</p><p>Cât merge un cronometru, <b>ecranul rămâne aprins</b>, ca să nu deblochezi telefonul. Îl poți bloca oricând manual cu butonul lateral, dar atunci nu se mai aude semnalul de final.</p>`},
  {k:'rec',t:'🛌 Odihnă și zile sărite',h:`<ul><li><b>Un singur antrenament pe zi.</b> Mușchii cresc la odihnă, iar două antrenamente în aceeași zi doar încetinesc refacerea.</li><li><b>Ai sărit o zi?</b> Nu strică nimic. Contează ce faci în majoritatea săptămânilor.</li><li>Dacă sari des, modul <b>„următorul la rând”</b> din Setări nu pierde niciun antrenament: data viitoare îl faci pe cel sărit.</li></ul>`},
  {k:'cozy',t:'🌙 Zilele cozy',h:`<p>Pentru zilele în care ești obosită sau nu te simți în apele tale:</p><ul><li>greutățile scad cu ~30% și ai o serie în minus;</li><li>extra-urile dispar, iar ce te deranjează poți sări;</li><li>greutățile tale normale rămân neatinse.</li></ul><p>Un antrenament ușor tot contează și de multe ori te face să te simți mai bine. 🌷</p>`},
  {k:'rest',t:'⏱️ Pauze',h:`<ul><li>~90 s la exercițiile mari (primele din listă)</li><li>~60 s la restul</li><li>Timerul pornește singur când bifezi o serie. Îl poți opri din Setări.</li></ul>`},
  {k:'abad',t:'↔️ Abductor sau adductor?',h:`<div class="row"><div class="ill">${ILL.abduct}</div><div><b>ABductor</b><br><span class="meta">pernuțe pe exterior, deschizi picioarele în afară</span></div></div><div class="row"><div class="ill">${ILL.adduct}</div><div><b>ADductor</b><br><span class="meta">pernuțe pe interior, strângi picioarele înăuntru</span></div></div><p>Truc: <b>AD</b>ductor = <b>AD</b>uci picioarele împreună.</p>`},
- {k:'core',t:'🧘 Core',ill:'deadbug',h:`<p>Un singur exercițiu la final, 2 serii, diferit de la o zi la alta:</p><ul><li><b>Plank:</b> corpul linie dreaptă, abdomen și fesieri strânși, 30–60 s, apoi un disc pe piept și înapoi la 30 s.</li><li><b>Dead bug:</b> pe spate, lombara lipită de saltea, întinzi încet brațul și piciorul opus. 6–8 pe parte.</li><li><b>Pallof press:</b> lateral față de cablu, împingi mâinile înainte fără să te lași răsucită. 8 pe parte.</li></ul>`},
+ {k:'core',t:'🧘 Core',ill:'deadbug',h:`<p>Un singur exercițiu la final, 2 serii, diferit de la o zi la alta:</p><ul><li><b>Plank:</b> corpul linie dreaptă, abdomen și fesieri strânși, 30–60 s, apoi un disc pe spate și înapoi la 30 s.</li><li><b>Dead bug:</b> pe spate, lombara lipită de saltea, întinzi încet brațul și piciorul opus. 6–8 pe parte.</li><li><b>Pallof press:</b> lateral față de cablu, împingi mâinile înainte fără să te lași răsucită. 8 pe parte.</li></ul>`},
  {k:'str',t:'🤸 Stretching (opțional, acasă)',ill:'stretch',h:`<p>20–30 s fiecare, fără durere. Ajută la mobilitate și relaxare. Accidentările le previn mai ales încălzirea și forma corectă.</p><ul><li>Cvadriceps: în picioare, prinzi glezna la fund</li><li>Spatele coapsei: un picior pe o treaptă, te apleci cu spatele drept</li><li>Fesieri: „cifra 4” pe scaun</li><li>Piept: antebrațul pe tocul ușii, un pas înainte</li><li>Gambe: mâinile pe perete, un picior în spate</li></ul>`},
  {k:'desk',t:'💻 Postura de birou',h:`<p>2–3 minute, oricând în timpul zilei:</p><ul><li><b>Chin tucks:</b> bărbia trasă drept înapoi, 3 s × 10</li><li><b>Piept la ușă:</b> 30 s</li><li><b>Extensie toracică:</b> mâinile după cap, te lași ușor pe spate peste spătar × 8</li><li><b>Flexori de șold:</b> fandare, fundul strâns, 30 s pe parte</li></ul><p>Cel mai mult ajută să te ridici și să schimbi poziția la fiecare 30–45 de minute. 🚶‍♀️</p>`},
  {k:'tips',t:'🌿 Sfaturi pentru rezultate',h:`<ul><li><b>Proteine:</b> ~1,6 g pe kg corp pe zi, ca să păstrezi mușchii cât timp slăbești.</li><li><b>Pași:</b> 7.000–10.000 pe zi contează enorm la slăbit.</li><li><b>Anduranță:</b> plimbări lungi, drumeții sau bicicletă în weekend. Opțional, 5–8 min de bicicletă cu intervale la final de antrenament.</li><li><b>Somn:</b> atunci se refac mușchii.</li><li><b>„Prea musculoasă”?</b> Cu 2 antrenamente pe săptămână și deficit caloric nu se întâmplă. Ce vezi e exact tonifierea. 💪</li></ul>`}
 ];
 
 /* ============ stare (salvată în telefon) ============ */
-const DEF={name:'',plan:'fbab',mode:'day',idx:0,cozy:false,restOn:true,sound:true,isoSound:true,goal:2,theme:'auto',w:{},hold:{},set:{},notes:{},top:{},logs:[],skips:{},session:null,lastBackup:null,snooze:0};
+const DEF={name:'',plan:'fbab',mode:'day',idx:0,cozy:false,restOn:true,sound:true,isoSound:true,prep:5,awake:true,goal:2,theme:'auto',w:{},hold:{},set:{},notes:{},top:{},logs:[],skips:{},session:null,lastBackup:null,snooze:0};
 let S=load();
 function load(){try{return Object.assign(clone(DEF),JSON.parse(localStorage.getItem(KEY)||'null')||{})}catch(e){return clone(DEF)}}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){toast('Nu am putut salva 😕')}}
@@ -451,25 +458,42 @@ function doSkip(){S.skips[todayKey()]={t:Date.now(),r:UI.reason,wid:(S.session&&
 function undoSkip(){delete S.skips[todayKey()];save();render();toast('Hai că poți! 💪')}
 async function delSkip(d){if(!await ask({emoji:'🗑️',title:'Ștergi ziua de odihnă?',text:d===todayKey()?'Dacă o ștergi, azi poți face din nou antrenamentul.':'Dispare din jurnal și din calendar.',ok:'Da, șterge',cancel:'Nu'}))return;delete S.skips[d];save();render()}
 
-/* ============ timer pauză + sunet ============ */
-let restT=null,restEnd=0,AC=null,iso=null;
+/* ============ timer pauză + ținere + sunet ============ */
+let restT=null,restEnd=0,AC=null,iso=null,lastSec=null,wl=null;
 function unlockAudio(){try{if(!AC)AC=new(window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume()}catch(e){}}
-function beep(ok){if(!ok||!AC)return;[660,880,990].forEach((f,i)=>{const t=AC.currentTime+i*0.18,o=AC.createOscillator(),g=AC.createGain();o.type='triangle';o.frequency.value=f;
- g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(0.25,t+0.02);g.gain.exponentialRampToValueAtTime(0.0001,t+0.16);o.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+0.2)});
- if(navigator.vibrate)navigator.vibrate([120,60,120])}
-function startRest(sec,lbl){if(!lbl&&!S.restOn)return;restEnd=Date.now()+sec*1000;$('#restLbl').textContent=lbl||'☕ pauză';clearInterval(restT);restT=setInterval(tickRest,250);tickRest();$('#rest').classList.add('show')}
+function play(seq,vib){try{if(AC)seq.forEach(([f,d,off])=>{const t=AC.currentTime+off,o=AC.createOscillator(),g=AC.createGain();
+ o.type='triangle';o.frequency.value=f;g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(0.28,t+0.02);
+ g.gain.exponentialRampToValueAtTime(0.0001,t+d);o.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+d+0.05)})}catch(e){}
+ if(vib&&navigator.vibrate)try{navigator.vibrate(vib)}catch(e){}}
+const SND={tick:[[700,.09,0]],go:[[1046,.32,0]],hold:[[990,.16,0],[880,.16,.18],[660,.34,.36]],rest:[[660,.16,0],[880,.16,.18],[990,.22,.36]]};
+const VIB={tick:[40],go:[230],hold:[130,70,130,70,240],rest:[120,60,120]};
+function cue(k,on){if(on)play(SND[k],VIB[k])}
+async function keepAwake(on){try{
+ if(on&&S.awake&&!wl&&navigator.wakeLock&&document.visibilityState==='visible'){wl=await navigator.wakeLock.request('screen');wl.addEventListener('release',()=>{wl=null})}
+ else if(!on&&wl){const w=wl;wl=null;await w.release()}}catch(e){wl=null}}
+function toggleAwake(){S.awake=!S.awake;save();keepAwake(S.awake&&!!restT);render();
+ toast(S.awake?'📱 Ecranul rămâne aprins cât merge cronometrul':'Ecranul se stinge normal')}
+function startRest(sec,lbl){if(!lbl&&!S.restOn)return;restEnd=Date.now()+sec*1000;lastSec=null;
+ $('#restLbl').textContent=lbl||'☕ pauză';$('#rest').classList.toggle('big',!!iso);
+ clearInterval(restT);restT=setInterval(tickRest,200);tickRest();$('#rest').classList.add('show');keepAwake(true)}
 function tickRest(){const left=Math.ceil((restEnd-Date.now())/1000);
- if(left>0){$('#restNum').textContent=fmt(left);return}
+ if(left>0){$('#restNum').textContent=iso?String(left):fmt(left);
+  if(iso&&left!==lastSec){lastSec=left;if(iso.phase==='prep'||left<=3)cue('tick',S.isoSound)}
+  return}
+ if(iso&&iso.phase==='prep'){iso.phase='hold';cue('go',S.isoSound);startRest(iso.sec,'⏳ ține poziția');return}
  const h=iso;stopRest();
- if(h&&S.session&&S.session.done[h.key]){const a=S.session.done[h.key];a[h.i]=true;save();beep(S.isoSound);
+ if(h&&S.session&&S.session.done[h.key]){const a=S.session.done[h.key];a[h.i]=true;save();cue('hold',S.isoSound);
   const c=a.slice(0,h.n).filter(Boolean).length;toast(c>=h.n?pick(YAY):'Serie bifată! 💪');if(c<h.n)startRest(h.rest);render()}
- else{beep(S.sound);toast('Gata pauza! 💪')}}
-function addRest(x){restEnd+=x*1000;tickRest()}
-function stopRest(){clearInterval(restT);restT=null;iso=null;$('#rest').classList.remove('show')}
+ else{cue('rest',S.sound);toast('Gata pauza! 💪')}}
+function addRest(x){restEnd+=x*1000;lastSec=null;tickRest()}
+function stopRest(){clearInterval(restT);restT=null;iso=null;lastSec=null;$('#rest').classList.remove('show','big');keepAwake(false)}
 function startHold(key,n,rest,sec){unlockAudio();const s=ensure();startIfNeeded(s);const a=s.done[key]||(s.done[key]=[]);
  let i=0;while(i<n&&a[i])i++;
  if(i>=n){toast('Toate seriile sunt bifate ✅');return}
- iso={key,i,n,rest};startRest(sec,'⏳ ține poziția');render()}
+ const p=S.prep==null?5:S.prep;
+ iso={key,i,n,rest,sec,phase:p>0?'prep':'hold'};
+ if(p>0)startRest(p,'🧘 pregătește-te');else{cue('go',S.isoSound);startRest(sec,'⏳ ține poziția')}
+ render()}
 
 /* ============ ferestre ============ */
 let tt,askCb=null;
@@ -512,7 +536,7 @@ function confetti(){for(let i=0;i<22;i++){const el=document.createElement('div')
  el.style.left=Math.random()*100+'vw';el.style.animationDelay=Math.random()*0.6+'s';el.style.fontSize=(18+Math.random()*18)+'px';document.body.appendChild(el);setTimeout(()=>el.remove(),3500)}}
 
 /* ============ backup ============ */
-function backupText(){return JSON.stringify({app:'cutegymtracker',v:4,exported:new Date().toISOString(),state:Object.assign({},S,{session:null})})}
+function backupText(){return JSON.stringify({app:'cutegymtracker',v:5,exported:new Date().toISOString(),state:Object.assign({},S,{session:null})})}
 function backupDone(){S.lastBackup=Date.now();save();render();toast('Backup gata 💾')}
 async function exportData(){const t=backupText(),name='cute-gym-backup-'+todayKey()+'.json';
  try{const f=new File([t],name,{type:'application/json'});if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],title:'Backup Cute Gym Tracker'});backupDone();return}}
@@ -649,7 +673,8 @@ function vSettings(){const p=P[S.plan],nx=p.seq[S.idx%p.seq.length];
  h+=`<div class="card"><h3>🎯 Obiectiv pe săptămână</h3><div class="goal">${[1,2,3,4,5].map(n=>`<button class="gbtn ${S.goal===n?'on':''}" onclick="setGoal(${n})">${n}</button>`).join('')}</div><p class="meta">${S.goal} ${S.goal===1?'antrenament':'antrenamente'} pe săptămână · inimioarele din „Azi” urmăresc asta.</p>${S.goal>=4?'<p class="meta">💡 La 4–5 zile, lasă măcar o zi între antrenamentele grele pentru aceleași grupe (de ex. o rotație cu upper/lower).</p>':''}</div>`;
  h+=`<div class="card taped"><h3>🗂️ Planul</h3>${Object.entries(P).map(([k,q])=>`<button class="plan ${S.plan===k?'on':''}" onclick="setPlan('${k}')"><b>${q.star?'⭐ ':''}${q.n}</b><span>${q.d}</span><span class="meta">${q.seq.map(w=>W[w].em+' '+W[w].n).join(' → ')}</span></button>`).join('')}<p class="meta">Următorul la rând: ${W[nx].em} ${W[nx].n}</p></div>`;
  h+=`<div class="card"><h3>🗓️ Cum aleg antrenamentul</h3><div class="row"><button class="chip ${S.mode==='day'?'on':''}" onclick="S.mode='day';save();render()">după zi</button><button class="chip ${S.mode==='next'?'on':''}" onclick="S.mode='next';save();render()">următorul la rând</button></div><p class="meta">${S.mode==='day'?'În zilele planului îți arăt antrenamentul zilei.':'Îți arăt mereu următorul antrenament, în orice zi. Dacă sari o zi, nu se strică nimic.'}${p.days?'':' (Planul ăsta e oricum o rotație.)'}</p></div>`;
- h+=`<div class="card"><div class="switch"><span>🌙 Zi cozy</span><button class="tog ${S.cozy?'on':''}" onclick="toggleCozy()"></button></div><div class="switch"><span>⏱️ Timer de pauză</span><button class="tog ${S.restOn?'on':''}" onclick="flip('restOn')"></button></div><div class="switch"><span>🔔 Sunet la final de pauză</span><button class="tog ${S.sound?'on':''}" onclick="flip('sound')"></button></div><div class="switch"><span>⏳ Sunet la final de ținere</span><button class="tog ${S.isoSound?'on':''}" onclick="flip('isoSound')"></button></div><p class="meta">Sunetul nu se aude dacă iPhone-ul e pe silențios.</p></div>`;
+ h+=`<div class="card"><div class="switch"><span>🌙 Zi cozy</span><button class="tog ${S.cozy?'on':''}" onclick="toggleCozy()"></button></div><div class="switch"><span>⏱️ Timer de pauză</span><button class="tog ${S.restOn?'on':''}" onclick="flip('restOn')"></button></div><div class="switch"><span>🔔 Sunet la final de pauză</span><button class="tog ${S.sound?'on':''}" onclick="flip('sound')"></button></div><div class="switch"><span>⏳ Sunete la exercițiile pe timp</span><button class="tog ${S.isoSound?'on':''}" onclick="flip('isoSound')"></button></div><div class="switch"><span>📱 Ține ecranul aprins <span class="meta">(doar cât merge cronometrul)</span></span><button class="tog ${S.awake?'on':''}" onclick="toggleAwake()"></button></div><p class="meta">Sunetul nu se aude dacă iPhone-ul e pe silențios. Poți bloca telefonul oricând cu butonul lateral, dar atunci nu mai auzi semnalul de final.</p></div>`;
+ h+=`<div class="card"><h3>⏳ Pregătire înainte de ținere</h3><p class="meta">Secundele pe care le ai ca să te așezi în poziție după ce apeși ▶️ start.</p><div class="goal">${[0,3,5,10].map(n=>`<button class="gbtn ${(S.prep??5)===n?'on':''}" onclick="S.prep=${n};save();render()">${n||'–'}<small>${n?'sec':'fără'}</small></button>`).join('')}</div></div>`;
  h+=`<div class="card"><button class="linkish" onclick="tog('weights')"><h3>🏋️ Greutățile mele <span class="meta">${UI.open.weights?'▴':'▾'}</span></h3></button>${UI.open.weights?`<p class="meta">Apasă pe nume ca să setezi reglajul aparatului 🔧</p>`+Object.keys(EX).filter(id=>!ex(id).bw).map(id=>{const e=ex(id),st=setting(id);return `<div class="wline"><div class="ill mini">${ILL[e.i]||ILL.stretch}</div><button class="linkish" onclick="editSet('${id}')">${esc(e.n)}${st?`<br><span class="meta">🔧 ${esc(st)}</span>`:''}</button><input class="kg" inputmode="decimal" value="${fmtKg(baseKg(id))}" placeholder="—" onchange="setBase('${id}',this.value)"><span class="meta">${e.u}</span></div>`}).join(''):''}</div>`;
  h+=`<div class="card"><h3>💾 Backup</h3><p class="meta">Datele tale stau în Safari, pe telefon. Un backup din când în când = liniște. ${S.lastBackup?'Ultimul: '+dm(S.lastBackup)+'.':'Încă niciunul.'}</p><button class="btn block" onclick="exportData()">Salvează backup (fișier)</button><button class="btn ghost block" onclick="copyData()">Copiază ca text</button><label class="btn ghost block filebtn">Încarcă din fișier<input type="file" accept=".json,application/json,text/plain" onchange="importFile(event)"></label><button class="btn ghost block" onclick="openPaste()">Lipește text de backup</button></div>`;
  h+=`<div class="card soft"><h3>📱 Pune-o pe ecranul principal</h3><p>În Safari: butonul <b>Share</b> (pătratul cu săgeată) → <b>Add to Home Screen</b>. Arată ca o aplicație și iPhone-ul nu-i mai șterge datele dacă n-o deschizi o vreme.</p></div>`;
@@ -665,7 +690,7 @@ function render(){document.querySelectorAll('nav button').forEach(b=>b.classList
  $('#app').innerHTML=UI.tab==='azi'?vAzi():UI.tab==='gradina'?vGarden():UI.tab==='ghid'?vGuide():vSettings();
  renderHeader()}
 setInterval(()=>{const c=$('#clock');if(c&&S.session&&S.session.start)c.textContent='⏱ '+fmt(Math.floor((Date.now()-S.session.start)/1000))},1000);
-document.addEventListener('visibilitychange',()=>{if(!document.hidden){if(restT)tickRest();if(!document.activeElement||document.activeElement===document.body)render()}});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden){if(restT)tickRest();if(restT)keepAwake(true);if(!document.activeElement||document.activeElement===document.body)render()}});
 
 /* ============ favicon + iconiță ecran principal ============ */
 (function(){
